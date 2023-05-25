@@ -23,8 +23,6 @@ char *get_location(char *command)
     {
         return NULL;
     }
-
-    // Handle empty PATH variable
     if (strlen(path) == 0)
     {
         if (stat(command, &buff) == 0 && S_ISREG(buff.st_mode) && (buff.st_mode & S_IXUSR))
@@ -46,7 +44,6 @@ char *get_location(char *command)
         strcat(full_path, command);
         strcat(full_path, "\0");
 
-        // Check if file exists and is executable
         if (access(full_path, X_OK) == 0)
         {
             free(path_copy);
@@ -60,7 +57,6 @@ char *get_location(char *command)
     }
     free(path_copy);
 
-    // Check if file exists and is executable in current directory
     if (stat(command, &buff) == 0 && S_ISREG(buff.st_mode) && (buff.st_mode & S_IXUSR))
     {
         return strdup(command);
@@ -186,7 +182,6 @@ int main(int argc, char **argv)
             printf("Exiting shell....\n");
             exit(0);
         }
-        // Trim leading/trailing spaces from input
         trimmed_input = strtok(buff, delims);
         if (trimmed_input == NULL)
         {
@@ -233,7 +228,6 @@ int main(int argc, char **argv)
         }
         else
         {
-            // Handle command execution multiple times
             int times = 1;
             if (argv[1] != NULL)
             {
